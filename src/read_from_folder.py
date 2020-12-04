@@ -23,6 +23,8 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 # Example tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract'
 
 
+
+
 class OCREngine(object):
     def __init__(self):
         self.template_name = None
@@ -54,22 +56,39 @@ class OCREngine(object):
     #      os.makedirs(output_path)
 
 
-    def find_images(self, folder):
+    def find_files(self, file_name):
         """
-        :param folder: str
+        :param file_name: str
             Path to folder to search
-        :return: generator of str
+        :return: void
             List of images in folder
         """
+        full_path = os.path.join(INPUT_FOLDER, file_name)
+        if os.path.exists(full_path):  # check file is available on given path and update 1 in db if available else 5 status code
+            pass
+        else:
+            pass
 
-        for file in os.listdir(folder):
-            full_path = os.path.join(folder, file)
-            if os.path.isfile(full_path):
-                try:
-                    _ = Image.open(full_path)  # if constructor succeeds
-                    yield file
-                except Exception as e:
-                    print("Exception in find_images: ", e.__class__)
+    def update_files_if_exist(self,file_id):
+        """
+
+        """
+        pass
+
+    def get_files(self):
+        """
+
+        """
+        list_of_files = fetch_files()  # establish db connectivity and get the list of files with status code 0
+        for file_name in list_of_files[0]:
+            self.find_files(file_name)  # check if file is available in input folder
+            print(file_name)
+        pass
+
+
+
+
+
 
     def rotate_image(self, input_file, output_file, angle=90):
         """
@@ -140,47 +159,7 @@ class OCREngine(object):
         return pd
 
 
-    def main(self, folder):
-        """
-        we need to check whether folder contains tesseract supported file
-        formats. PDF, jpg, JPEG, png, tiff
 
-        :param folder: str
-            path of the input folder
-        :return: void
-        """
-        filepaths = []
-        for file in os.listdir(folder):
-            full_path = os.path.join(folder, file)
-            if os.path.isfile(full_path):
-                try:
-                    #_ = Image.open(full_path)  # if constructor succeeds
-                    file_extension = os.path.splitext(file)[-1].lower()
-                    # Now we can simply check for equality, no need for wildcards.
-                    if file_extension.lower().endswith(('.png', '.jpg', '.jpeg')):
-                        filepaths.append(file)
-                        image_object = cv2.imread(full_path)
-                        self.process_with_ocr_engine(image_object)
-                        print("found image file", file_extension)
-                    elif file_extension.lower().endswith(('.pdf')):
-                        '''
-                        if it is pdf file , get images from pdf file and process tesseract and save files in  output folder.
-                        make folder based on file inside output folder.
-                        '''
-                        filepaths.append(file)
-                        image_object = self.convert_pdf_to_image(folder,file)
-                        for i, page in enumerate(image_object):
-                            image_name = '{}_{}.png'.format(file[:-4], i)
-                            #page.save(TMP_FOLDER+"\\"+image_name, 'png')
-                            #img_from_temp_path = TMP_FOLDER+"\\"+image_name
-                            ocr_result = self.process_with_ocr_engine(page)
-                            self.make_dir_and_save_ocr_result(image_name, ocr_result)
-                        print("found pdf file", file_extension)
-                    else:
-                        pass
-                except Exception as e:
-                    print(e)
-                    print("Exception occured in main function:", e.__class__)
 
 
     def process_with_ocr_engine(self, image_file):
@@ -296,8 +275,50 @@ class OCREngine(object):
             image_preprocesing.pre_processing(input_path, OUTPUT_FOLDER)
             self.run_tesseract(input_path, out_path)
 
+    def main(self, folder):
+        """
+        we need to check whether folder contains tesseract supported file
+        formats. PDF, jpg, JPEG, png, tiff
+
+        :param folder: str
+            path of the input folder
+        :return: void
+        """
+        filepaths = []
+        for file in os.listdir(folder):
+            full_path = os.path.join(folder, file)
+            if os.path.isfile(full_path):
+                try:
+                    #_ = Image.open(full_path)  # if constructor succeeds
+                    file_extension = os.path.splitext(file)[-1].lower()
+                    # Now we can simply check for equality, no need for wildcards.
+                    if file_extension.lower().endswith(('.png', '.jpg', '.jpeg')):
+                        filepaths.append(file)
+                        image_object = cv2.imread(full_path)
+                        self.process_with_ocr_engine(image_object)
+                        print("found image file", file_extension)
+                    elif file_extension.lower().endswith(('.pdf')):
+                        '''
+                        if it is pdf file , get images from pdf file and process tesseract and save files in  output folder.
+                        make folder based on file inside output folder.
+                        '''
+                        filepaths.append(file)
+                        image_object = self.convert_pdf_to_image(folder,file)
+                        for i, page in enumerate(image_object):
+                            image_name = '{}_{}.png'.format(file[:-4], i)
+                            #page.save(TMP_FOLDER+"\\"+image_name, 'png')
+                            #img_from_temp_path = TMP_FOLDER+"\\"+image_name
+                            ocr_result = self.process_with_ocr_engine(page)
+                            self.make_dir_and_save_ocr_result(image_name, ocr_result)
+                        print("found pdf file", file_extension)
+                    else:
+                        pass
+                except Exception as e:
+                    print(e)
+                    print("Exception occured in main function:", e.__class__)
 
 if __name__ == '__main__':
         #main()
         engine_object = OCREngine()
-        engine_object.main(INPUT_FOLDER)
+        # engine_object.main(INPUT_FOLDER)
+        engine_object.get_files()

@@ -11,14 +11,13 @@ def fetch_files():
     get_files_query : str
         query string
     file_obj : List
-        query result is list 0f tuple
+        query result is list of tuple
     """
 
     with conn.cursor() as cursor:
         get_files_query = "SELECT file_name FROM files where status_code= 0"
         cursor.execute(get_files_query)
         file_obj = cursor.fetchall()
-    print(file_obj)
     return file_obj
 
 
@@ -28,14 +27,35 @@ def fetch_template(template_name):
     return: Tuple
     """
     with conn.cursor() as cursor:
-        # cursor.execute("UPDATE bar SET foo = 1 WHERE baz = %s", [self.baz])
         query = "SELECT rules FROM templates where template_name=\'{}\'".format(template_name)
         cursor.execute(query)
         row = cursor.fetchone()
-    print(row)
     return row
 
 
+def update_status_if_exist(file_id):
+    """
+
+    """
+    with conn.cursor() as cursor:
+        query = """UPDATE files SET status_code = 1 where id = %s"""
+        cursor.execute(query, (str(file_id)))
+        conn.commit()
+
+    return None
+
+def update_status_if_not_exist(file_id):
+    """
+
+    """
+    with conn.cursor() as cursor:
+        query = """UPDATE files SET status_code = 8 , error_message = %s where id = %s"""
+        cursor.execute(query, ("file not available", str(file_id)))
+        conn.commit()
+
+    return None
+
 if __name__ == "__main__":
-    print(fetch_files())
-    print(fetch_template('thyrocare'))
+    # print(fetch_files())
+    # print(fetch_template('thyrocare'))
+    update_status_if_not_exist(1)

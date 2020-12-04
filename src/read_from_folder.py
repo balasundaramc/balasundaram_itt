@@ -9,6 +9,8 @@ import numpy as np
 from src.pre_processor import ImagePreProcessing
 from src.thyrocare import process_df
 from template_match import template_match
+from src.db_layer import *
+
 BASE_PATH = os.getcwd()
 print(BASE_PATH)
 INPUT_FOLDER = os.path.join(BASE_PATH, "data/img")
@@ -162,7 +164,7 @@ class OCREngine(object):
                         print("found image file", file_extension)
                     elif file_extension.lower().endswith(('.pdf')):
                         '''
-                        if it is pdf file , get images from pdf file and proecess tesseract and save files in  output folder.
+                        if it is pdf file , get images from pdf file and process tesseract and save files in  output folder.
                         make folder based on file inside output folder.
                         '''
                         filepaths.append(file)

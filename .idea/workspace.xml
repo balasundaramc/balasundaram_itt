@@ -47,9 +47,9 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
-  <component name="RunManager" selected="Python.db_layer">
+  <component name="RunManager" selected="Python.read_from_folder">
     <configuration name="db_layer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="dd" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -94,8 +94,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.db_layer" />
         <item itemvalue="Python.read_from_folder" />
+        <item itemvalue="Python.db_layer" />
       </list>
     </recent_temporary>
   </component>
@@ -125,11 +125,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/db_layer.py</url>
-          <line>58</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/db_layer.py</url>
           <line>16</line>
@@ -137,18 +132,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/read_from_folder.py</url>
-          <line>323</line>
+          <line>339</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/db_layer.py</url>
-          <line>60</line>
-          <option name="timeStamp" value="4" />
+          <url>file://$PROJECT_DIR$/src/read_from_folder.py</url>
+          <line>292</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/db_layer.py</url>
-          <line>44</line>
-          <option name="timeStamp" value="6" />
+          <line>41</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

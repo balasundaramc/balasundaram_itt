@@ -15,7 +15,7 @@ def fetch_files():
     """
 
     with conn.cursor() as cursor:
-        get_files_query = "SELECT file_name FROM files where status_code= 0"
+        get_files_query = "SELECT file_name, id FROM files where status_code= 0"
         cursor.execute(get_files_query)
         file_obj = cursor.fetchall()
     return file_obj
@@ -44,18 +44,18 @@ def update_status_if_exist(file_id):
 
     return None
 
-def update_status_if_not_exist(file_id):
+def update_status_if_not_exist(file_id, status_code, error_message):
     """
 
     """
     with conn.cursor() as cursor:
-        query = """UPDATE files SET status_code = 8 , error_message = %s where id = %s"""
-        cursor.execute(query, ("file not available", str(file_id)))
+        query = """UPDATE files SET status_code = %s , error_message = %s where id = %s"""
+        cursor.execute(query, (str(status_code), error_message, str(file_id)))
         conn.commit()
 
     return None
 
 if __name__ == "__main__":
-    # print(fetch_files())
-    # print(fetch_template('thyrocare'))
-    update_status_if_not_exist(1)
+    print(fetch_files())
+    # # print(fetch_template('thyrocare'))
+    # update_status_if_not_exist(1)
